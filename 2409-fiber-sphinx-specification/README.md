@@ -68,7 +68,7 @@ Filler is used to fill the blanks when a hop removes its message from the packet
 Let $\phi_0$ be an empty string. For $0 \lt i \lt v$:
 
 $$
-\phi_i = \mathsf{Chacha20}(\rho_{i-1})[(L-\lvert \phi_{i-1} \rvert)..(L + \lvert m_{i-1} \rvert)] \oplus \{\phi_{i-1} \Vert 0_{\lvert m_{i-1} \rvert} \}
+\phi_i = \mathsf{Chacha20}(\rho_{i-1})[(L-\lvert \phi_{i-1} \rvert)..(L + \lvert m_{i-1} \rvert)] \oplus \\{\phi_{i-1} \Vert 0_{\lvert m_{i-1} \rvert} \\}
 $$
 
 Where

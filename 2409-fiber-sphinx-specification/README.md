@@ -94,11 +94,10 @@ $$
 Compute a sequence of $v$ tuples $(\beta_i, \gamma_i)$ for each node $n_i$ incrementally in the reverse order. For the last node $n_{v-1}$:
 
 $$
-\begin{array}{rlll}
-\beta'_{v-1} =& \{m_{v-1} \Vert 0_{32} \Vert P[0..(L-\lvert \phi_{v-1}\rvert -\lvert m_{v-1}\rvert - 32)]\} \oplus \mathsf{Chacha20}(\rho_{v-1})[0..(L-\lvert \phi_{v-1}\rvert))] \\
-
-\beta_{v-1} =& \beta'_{v-1} \Vert \phi_{v-1} \\
-\gamma_{v-1} =& \mathsf{HMAC\textrm{-}SHA256}_{\mu_{v-1}}(\beta_{v-1} \Vert A)
+\begin{array}{rl}
+\beta' _{v-1} =& \\{m _{v-1} \Vert 0 _{32} \Vert P[0..(L-\lvert \phi _{v-1}\rvert -\lvert m _{v-1}\rvert - 32)]\\} \oplus \mathsf{Chacha20}(\rho _{v-1})[0..(L-\lvert \phi _{v-1}\rvert)] \\
+\beta _{v-1} =& \beta' _{v-1} \Vert \phi _{v-1} \\
+\gamma _{v-1} =& \mathsf{HMAC\textrm{-}SHA256}(\mu _{v-1}, \beta _{v-1} \Vert A)
 \end{array}
 $$
 
@@ -109,17 +108,16 @@ Where
 - $\Vert$ denotes concatenation
 - $\lvert s \rvert$ is the length of string $s$
 - $a \oplus b$ applies XOR on strings $a$ and $b$.
-- $\mathsf{HMAC\textrm{-}SHA256}_k (s)$ computes HMAC-SHA256 on the string $s$ by using $k$ as the HMAC key.
+- $\mathsf{HMAC\textrm{-}SHA256}(k, s)$ computes HMAC-SHA256 on the string $s$ by using $k$ as the HMAC key.
 
 See the annotations description in the previous section Filler Generation.
 
 For node $n_i$ that $0 \le i \lt v-1$:
 
 $$
-\begin{array}{rlll}
-\beta_{i} =& \{m_{i} \Vert \gamma_{i+1} \Vert \beta_{i+1}[0..(L-\lvert m_{i} \rvert - 32)] \} \oplus \mathsf{Chacha20}(\rho_{i})[0..L] \\
-
-\gamma_{i} =& \mathsf{HMAC\textrm{-}SHA256}_{\mu_{i}}(\beta_{i} \Vert A)
+\begin{array}{rl}
+\beta_{i} =& \\{m_{i} \Vert \gamma_{i+1} \Vert \beta_{i+1}[0..(L-\lvert m_{i} \rvert - 32)] \\} \oplus \mathsf{Chacha20}(\rho_{i})[0..L] \\
+\gamma_{i} =& \mathsf{HMAC\textrm{-}SHA256}(\mu_{i}, \beta_{i} \Vert A) \\
 \end{array}
 $$
 

@@ -81,7 +81,7 @@ Where
 
 This step is illustrated in Figure 1.
 
-![](Fiber Sphinx Specification - Filler Generation.excalidraw.svg)
+![](Fiber%20Sphinx%20Specification%20-%20Filler%20Generation.excalidraw.svg)
 
 ### Creating a Forwarding Message
 

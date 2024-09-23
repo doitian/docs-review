@@ -81,7 +81,7 @@ Where
 
 This step is illustrated in Figure 1.
 
-![](Fiber%20Sphinx%20Specification%20-%20Filler%20Generation%20v2.excalidraw.svg)
+![Figure 1](Fiber%20Sphinx%20Specification%20-%20Filler%20Generation%20v2.excalidraw.svg)
 
 ### Creating a Forwarding Message
 
@@ -124,6 +124,8 @@ $$
 The forward message is the tuple $(\alpha_0, \beta_0, \gamma_0)$, and should be sent to $n_0$.
 
 This step is illustrated in Figure 2.
+
+![Figure 2](Fiber%20Sphinx%20Specification%20-%20Construction.excalidraw.svg)
 
 ## Peeling and Forwarding
 

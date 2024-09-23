@@ -129,5 +129,43 @@ This step is illustrated in Figure 2.
 
 ## Peeling and Forwarding
 
+Input:  The node $n_i$ who possesses the private key $x_i$ has received the message $(\alpha_i, \beta_i, \gamma_i)$.
+
+The node $n_i$ can get the Diffie-Hellman shared secret $s_i$ from $x_i$ and $\alpha_i$.
+
+$$
+\begin{array}{rl}
+s_i =& y_{i}^{x \prod_{k=1}^{i-1}{b_k} } \\
+    =& {(g^{x_{i}})}^{x \prod_{k=1}^{i-1}{b_k} } \\
+    =& {(g^{x \prod_{k=1}^{i-1}{b_k} })}^{x_{i}} \\
+    =& \alpha_{i}^{x_i}
+\end{array}
+$$
+
+From the shared secret, the node can derive $b_i$, $\mu_i$ and $\rho_i$:
+
+$$
+\begin{array}{rl}
+b_i =& h_b(\alpha_i, s_i) \\
+\mu_i =& h_\mu(s_i) \\
+\rho_i =& h_\rho(s_i) \\
+\end{array}
+$$
+
+Compute the HMAC of $\beta_i$ using the key $\mu_i$ and verify whether it is $\gamma_i$. If they does not match, discard the message. Otherwise, decrypt $\beta_i$ by XORing it with the output of $\mathsf{Chacha20}(\rho_i)[0..L]$.
+
+Attention that, the decrypted content starts with $m_i$ and $\gamma_{i+1}$ but how to know the length of $m_i$ is not a part of Fiber Sphinx Specification. The applications must add their own mechanisms to get the length. For example, the message can have a fixed length or has embed the length in itself. Using the length, the node can extracted $m_i$ and $\gamma_{i+1}$ from the decrypted content. The node $n_i$ is the final node if $\gamma_{i+1}$ is $0_{32}$, otherwise it should create the forwarding message $(\alpha_{i+1}, \beta_{i+1}, \gamma_{i+1})$ for $n_{i+1}$:
+
+- $\alpha_{i+1}$ can be derived from $\alpha_i$ and $b_i$ since $g^{x \prod_{k=1}^{i-1}{b_k} } = {g^{x \prod_{k=1}^{i-2}{b_k}}}^{b_i} = \alpha_i^{b_i}$
+- Delete $m_i$ and $\gamma_{i+1}$ from the decrypted content, and append $\lvert m_i \rvert + 32$ bytes of zeros in the end. XOR the new appended $\lvert m_i \rvert + 32$ bytes with $\mathsf{Chacha20}(\rho)[L..(L+\lvert m_i \rvert+32)]$. This step will recreate the content of $\beta_{i+1}$.
+- $\gamma_{i+1}$ is in the decrypted $\beta_i$.
+
+This step is illustrated in Figure 3
+
+![Figure%203](Fiber%20Sphinx%20Specification%20-%20Peeling.excalidraw.svg)
+
+The Fiber Sphinx dose not define how $n_i$ knows the address of $n_{i+1}$ to send the forwarding message. Usually such information can be obtained from $m_i$.
 
 ## Test Vectors
+
+TODO
